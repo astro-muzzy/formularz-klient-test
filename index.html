@@ -240,30 +240,86 @@
     }
 
     /* druk */
-    @media print{
-      body{ margin: 0; background:#fff; }
-      .page{ max-width: none; }
-      .card{ box-shadow:none; border-radius:0; }
-      .actions, .hint{ display:none !important; }
-      thead th{ position: static; background:#fff; }
-      tbody tr:hover td{ background:#fff; }
-      input, textarea, select{
-        border: 0 !important;
-        box-shadow: none !important;
-        background: transparent !important;
-        padding: 0 !important;
-        height: auto !important;
-      }
-      .cell-input{
-        border: 0 !important;
-        box-shadow:none !important;
-        padding:0 !important;
-        height:auto !important;
-        background:transparent !important;
-      }
-      /* mocniejsze linie na wydruku */
-      thead th, tbody td{ border-color:#000 !important; }
-    }
+@media print {
+
+  /* 1) A4 pion + sensowne marginesy */
+  @page {
+    size: A4 portrait;
+    margin: 12mm;
+  }
+
+  body{
+    margin: 0;
+    background: #fff;
+  }
+
+  .page{
+    width: 100%;
+    max-width: none;
+  }
+
+  /* 2) WYŁĄCZ sticky (ważne!) */
+  thead th{
+    position: static !important;
+    background: #fff !important;
+  }
+
+  /* 3) SKALOWANIE CAŁEJ STRONY */
+  .page{
+    transform: scale(0.88);          /* 👈 kluczowe */
+    transform-origin: top left;
+  }
+
+  /* kompensacja szerokości po skalowaniu */
+  .page{
+    width: 114%;
+  }
+
+  /* 4) tabela MUSI się zmieścić */
+  table{
+    width: 100% !important;
+    table-layout: auto !important;
+  }
+
+  thead th,
+  tbody td{
+    border-color: #000 !important;
+  }
+
+  /* 5) odchudzamy wszystko na wydruk */
+  thead th{
+    font-size: 10px;
+    padding: 4px 3px;
+  }
+
+  tbody td{
+    padding: 3px 3px;
+  }
+
+  input,
+  textarea,
+  select,
+  .cell-input{
+    border: 0 !important;
+    box-shadow: none !important;
+    background: transparent !important;
+    padding: 0 !important;
+    height: auto !important;
+    font-size: 10.5px !important;
+  }
+
+  /* 6) zapobiegaj rozrywaniu wierszy */
+  tr{
+    page-break-inside: avoid;
+    break-inside: avoid;
+  }
+
+  /* 7) elementy niedrukowane */
+  .actions,
+  .hint{
+    display: none !important;
+  }
+}
   </style>
 </head>
 
@@ -450,3 +506,4 @@
 </script>
 </body>
 </html>
+
